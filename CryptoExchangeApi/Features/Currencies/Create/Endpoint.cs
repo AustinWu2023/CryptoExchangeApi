@@ -1,9 +1,6 @@
 ﻿using CryptoExchangeApi.Models;
 using CryptoExchangeApi.Share;
 using FastEndpoints;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NSwag.Annotations;
 using Serilog;
 
 namespace CryptoExchangeApi.Features.Currencies.Create {
@@ -42,16 +39,15 @@ namespace CryptoExchangeApi.Features.Currencies.Create {
                     ExchangeRate = newCurrency.ExchangeRate,
                     UpdatedAtUTC = DateTimeHelper.ConvertUtcToLocalTimeStr(newCurrency.UpdatedAtUTC)
                 };
-
-                Response = new Response { Data = createResult };
-                
-                //await SendAsync(new Response() { Data = createResult });
+                              
+                await SendAsync(new Response() { Data = createResult });
+                //Response = new Response { Data = createResult };
 
             } catch (Exception ex) {
 
                 Log.Error($"Create new currency failed. Message : {ex.Message}");
-                Response = new Response { Data = null };
-                //await SendAsync(new Response() { Data = new() }, 500);
+                await SendAsync(new Response() { Data = new() }, 500);
+                //Response = new Response { Data = null };
             }
         }
     }

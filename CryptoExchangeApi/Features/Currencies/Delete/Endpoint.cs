@@ -1,7 +1,6 @@
 ﻿using CryptoExchangeApi.Models;
 using FastEndpoints;
 using Serilog;
-using static FastEndpoints.Ep;
 
 namespace CryptoExchangeApi.Features.Currencies.Delete {
     internal sealed class Endpoint : Endpoint<Request, Response> {
@@ -23,21 +22,19 @@ namespace CryptoExchangeApi.Features.Currencies.Delete {
 
             if (result == null) {
                 Log.Warning($"Delete Currency By Id, currency not found. Id: {r.Id}");
-                Response = new Response();
-                //await SendNotFoundAsync();
+                await SendNotFoundAsync();
+                //Response = new Response();
             }
 
             try {
                 DbContext.CryptoCurrency.Remove(result);
-                await DbContext.SaveChangesAsync(c);
-
-                Response = new Response();
-                //await SendOkAsync();
+                await DbContext.SaveChangesAsync(c);                
+                await SendOkAsync();
+                //Response = new Response();
             } catch (Exception ex) {
                 Log.Error($"Delete Currency by Id failed. Message : {ex.Message}");
-                //await SendAsync(new Response(), 500);
-                Response = new Response();
-                
+                await SendAsync(new Response(), 500);
+                //Response = new Response();                
             }
         }
     }

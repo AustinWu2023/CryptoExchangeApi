@@ -36,14 +36,12 @@ namespace CryptoExchangeApi.Features.Currencies.Detail {
                 if (!result.Any()) {
                     Log.Warning($"Currency not found. CurrencyCode : {r.CurrencyCode}");
                 }
-
-                Response = new Response { Data = result };
-                //await SendAsync(new Response() { Data = result });
+                await SendAsync(new Response() { Data = result });
+                //Response = new Response { Data = result };
             } catch (Exception ex) {
-                Log.Error($"Get Currencies By CurrencyCode failed. Message : {ex.Message}");
-
-                Response = new Response { Data = null };
-                //await SendAsync(new Response(), 500);
+                Log.Error($"Get Currencies By CurrencyCode failed. Message : {ex.Message}");                
+                await SendAsync(new Response(), 500);
+                //Response = new Response { Data = null };
             }
 
         }
