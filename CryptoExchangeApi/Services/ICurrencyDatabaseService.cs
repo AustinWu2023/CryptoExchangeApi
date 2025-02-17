@@ -1,4 +1,4 @@
-﻿using CryptoExchangeApi.Features.Coindesk;
+﻿using CryptoExchangeApi.Features.Coindesk.GetApiData;
 
 namespace CryptoExchangeApi.Services {
     public interface ICurrencyDatabaseService {

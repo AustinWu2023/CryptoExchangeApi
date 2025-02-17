@@ -1,8 +1,8 @@
-﻿using CryptoExchangeApi.Features.Coindesk;
-using CryptoExchangeApi.Models;
+﻿using CryptoExchangeApi.Models;
 using Serilog;
 
 using Microsoft.EntityFrameworkCore;
+using CryptoExchangeApi.Features.Coindesk.GetApiData;
 
 namespace CryptoExchangeApi.Services {
     public class CurrencyDatabaseService : ICurrencyDatabaseService {
