@@ -37,8 +37,20 @@ bld.Services.AddFastEndpoints(opt => {
 
 }); //define a swagger document
 
+// External API
+bld.Services.AddHttpClient("ExternalApiClient")
+    .AddHttpMessageHandler<LoggingHttpHandler>();
+
+bld.Services.AddTransient<LoggingHttpHandler>();
+
+
 var app = bld.Build();
- 
+
+
+app.UseDefaultExceptionHandler();
+// Internal API
+app.UseMiddleware<RequestResponseLoggingMiddleware>(); 
+
 app.UseDefaultExceptionHandler()
    .UseFastEndpoints(cfg => {
     cfg.Endpoints.RoutePrefix = "api"; // Set API route prefix (optional)
