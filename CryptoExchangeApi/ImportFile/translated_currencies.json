@@ -1,0 +1,402 @@
+[
+    {
+        "Symbol": "BTC",
+        "Name": "比特幣"
+    },
+    {
+        "Symbol": "ETH",
+        "Name": "以太坊"
+    },
+    {
+        "Symbol": "XRP",
+        "Name": "瑞波幣"
+    },
+    {
+        "Symbol": "USDT",
+        "Name": "泰達幣"
+    },
+    {
+        "Symbol": "BNB",
+        "Name": "幣安幣"
+    },
+    {
+        "Symbol": "SOL",
+        "Name": "索拉納"
+    },
+    {
+        "Symbol": "USDC",
+        "Name": "美元穩定幣"
+    },
+    {
+        "Symbol": "DOGE",
+        "Name": "狗狗幣"
+    },
+    {
+        "Symbol": "ADA",
+        "Name": "艾達幣"
+    },
+    {
+        "Symbol": "TRX",
+        "Name": "波場幣"
+    },
+    {
+        "Symbol": "WBTC",
+        "Name": "包裹比特幣"
+    },
+    {
+        "Symbol": "LINK",
+        "Name": "鏈鏈"
+    },
+    {
+        "Symbol": "XLM",
+        "Name": "恆星幣"
+    },
+    {
+        "Symbol": "AVAX",
+        "Name": "雪崩幣"
+    },
+    {
+        "Symbol": "SUI",
+        "Name": "Sui"
+    },
+    {
+        "Symbol": "LTC",
+        "Name": "萊特幣"
+    },
+    {
+        "Symbol": "SHIB",
+        "Name": "柴犬幣"
+    },
+    {
+        "Symbol": "HYPE",
+        "Name": "Hyperliquid"
+    },
+    {
+        "Symbol": "DOT",
+        "Name": "波卡幣"
+    },
+    {
+        "Symbol": "OM",
+        "Name": "Mantra"
+    },
+    {
+        "Symbol": "BCH",
+        "Name": "比特幣現金"
+    },
+    {
+        "Symbol": "UNI",
+        "Name": "Uni 交換幣"
+    },
+    {
+        "Symbol": "DAI",
+        "Name": "戴幣"
+    },
+    {
+        "Symbol": "XMR",
+        "Name": "門羅幣"
+    },
+    {
+        "Symbol": "PEPE",
+        "Name": "Pepe"
+    },
+    {
+        "Symbol": "ONDO",
+        "Name": "Ondo"
+    },
+    {
+        "Symbol": "NEAR",
+        "Name": "Near Protocol"
+    },
+    {
+        "Symbol": "AAVE",
+        "Name": "AAVE 幣"
+    },
+    {
+        "Symbol": "TRUMP",
+        "Name": "Trump Official"
+    },
+    {
+        "Symbol": "ICP",
+        "Name": "Internet Computer"
+    },
+    {
+        "Symbol": "HBAR",
+        "Name": "Hedera-Hashgraph"
+    },
+    {
+        "Symbol": "ETC",
+        "Name": "Ethereum Classic"
+    },
+    {
+        "Symbol": "APT",
+        "Name": "Aptos"
+    },
+    {
+        "Symbol": "OKB",
+        "Name": "OKB"
+    },
+    {
+        "Symbol": "TAO",
+        "Name": "Bittensor"
+    },
+    {
+        "Symbol": "KAS",
+        "Name": "Kaspa"
+    },
+    {
+        "Symbol": "VET",
+        "Name": "VeChain"
+    },
+    {
+        "Symbol": "POL",
+        "Name": "POL (prev. MATIC)"
+    },
+    {
+        "Symbol": "ALGO",
+        "Name": "Algorand"
+    },
+    {
+        "Symbol": "CRO",
+        "Name": "Cronos"
+    },
+    {
+        "Symbol": "FIL",
+        "Name": "文件幣"
+    },
+    {
+        "Symbol": "GT",
+        "Name": "GateToken"
+    },
+    {
+        "Symbol": "FET",
+        "Name": "Artificial Superintelligence Alliance"
+    },
+    {
+        "Symbol": "ATOM",
+        "Name": "宇宙幣"
+    },
+    {
+        "Symbol": "ARB",
+        "Name": "Arbitrum"
+    },
+    {
+        "Symbol": "LDO",
+        "Name": "Lido DAO"
+    },
+    {
+        "Symbol": "FTM",
+        "Name": "Fantom"
+    },
+    {
+        "Symbol": "KCS",
+        "Name": "KuCoin Token"
+    },
+    {
+        "Symbol": "DEXE",
+        "Name": "DeXe"
+    },
+    {
+        "Symbol": "RAY",
+        "Name": "Raydium"
+    },
+    {
+        "Symbol": "TIA",
+        "Name": "Celestia"
+    },
+    {
+        "Symbol": "STX",
+        "Name": "Stacks"
+    },
+    {
+        "Symbol": "GRT",
+        "Name": "The Graph"
+    },
+    {
+        "Symbol": "THETA",
+        "Name": "THETA"
+    },
+    {
+        "Symbol": "XDC",
+        "Name": "XinFin Network"
+    },
+    {
+        "Symbol": "QNT",
+        "Name": "Quant"
+    },
+    {
+        "Symbol": "INJ",
+        "Name": "Injective"
+    },
+    {
+        "Symbol": "TEL",
+        "Name": "Telcoin"
+    },
+    {
+        "Symbol": "EOS",
+        "Name": "柚子幣"
+    },
+    {
+        "Symbol": "SAND",
+        "Name": "沙盒幣"
+    },
+    {
+        "Symbol": "XTZ",
+        "Name": "特佐幣"
+    },
+    {
+        "Symbol": "NEXO",
+        "Name": "Nexo"
+    },
+    {
+        "Symbol": "MKR",
+        "Name": "Maker"
+    },
+    {
+        "Symbol": "IOTA",
+        "Name": "IOTA"
+    },
+    {
+        "Symbol": "GALA",
+        "Name": "Gala"
+    },
+    {
+        "Symbol": "CAKE",
+        "Name": "PancakeSwap"
+    },
+    {
+        "Symbol": "FLOW",
+        "Name": "Flow"
+    },
+    {
+        "Symbol": "BSV",
+        "Name": "Bitcoin SV"
+    },
+    {
+        "Symbol": "NEO",
+        "Name": "小蟻幣"
+    },
+    {
+        "Symbol": "FTT",
+        "Name": "FTX Token"
+    },
+    {
+        "Symbol": "AXS",
+        "Name": "Axie 無限幣"
+    },
+    {
+        "Symbol": "HNT",
+        "Name": "氦氣幣"
+    },
+    {
+        "Symbol": "CRV",
+        "Name": "Curve DAO Token"
+    },
+    {
+        "Symbol": "WIF",
+        "Name": "dogwifhat"
+    },
+    {
+        "Symbol": "MANA",
+        "Name": "Decentraland"
+    },
+    {
+        "Symbol": "MATIC",
+        "Name": "Polygon"
+    },
+    {
+        "Symbol": "AR",
+        "Name": "Arweave"
+    },
+    {
+        "Symbol": "CFX",
+        "Name": "Conflux"
+    },
+    {
+        "Symbol": "ZEC",
+        "Name": "Z 現金"
+    },
+    {
+        "Symbol": "PENDLE",
+        "Name": "Pendle"
+    },
+    {
+        "Symbol": "CHZ",
+        "Name": "奇利茲幣"
+    },
+    {
+        "Symbol": "EGLD",
+        "Name": "MultiversX"
+    },
+    {
+        "Symbol": "XEC",
+        "Name": "eCash"
+    },
+    {
+        "Symbol": "KAVA",
+        "Name": "Kava"
+    },
+    {
+        "Symbol": "PENGU",
+        "Name": "Pudgy Penguins"
+    },
+    {
+        "Symbol": "COMP",
+        "Name": "Compound"
+    },
+    {
+        "Symbol": "TUSD",
+        "Name": "TrueUSD"
+    },
+    {
+        "Symbol": "AIOZ",
+        "Name": "AIOZ Network"
+    },
+    {
+        "Symbol": "AMP",
+        "Name": "Amp"
+    },
+    {
+        "Symbol": "AKT",
+        "Name": "Akash Network"
+    },
+    {
+        "Symbol": "RSR",
+        "Name": "Reserve Rights"
+    },
+    {
+        "Symbol": "GNO",
+        "Name": "Gnosis"
+    },
+    {
+        "Symbol": "RUNE",
+        "Name": "THORChain"
+    },
+    {
+        "Symbol": "TWT",
+        "Name": "Trust Wallet Token"
+    },
+    {
+        "Symbol": "MINA",
+        "Name": "米娜幣"
+    },
+    {
+        "Symbol": "1INCH",
+        "Name": "1inch Network"
+    },
+    {
+        "Symbol": "NXM",
+        "Name": "NXM"
+    },
+    {
+        "Symbol": "GLM",
+        "Name": "Golem"
+    },
+    {
+        "Symbol": "SUPER",
+        "Name": "SuperVerse"
+    },
+    {
+        "Symbol": "JST",
+        "Name": "JUST"
+    }
+]

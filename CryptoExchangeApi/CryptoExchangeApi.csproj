@@ -29,4 +29,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ImportFile\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="ImportFile\translated_currencies.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
