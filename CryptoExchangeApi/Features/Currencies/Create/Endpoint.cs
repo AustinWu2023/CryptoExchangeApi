@@ -40,7 +40,7 @@ namespace CryptoExchangeApi.Features.Currencies.Create {
                     CurrencyCode = newCurrency.CurrencyCode,
                     CurrencyName = newCurrency.CurrencyName,
                     ExchangeRate = newCurrency.ExchangeRate,
-                    UpdatedAtUTC = DateTimeHelper.ConvertUtcToLocalTimeStr(newCurrency.UpdatedAtUTC)
+                    UpdatedAtUTC = DateTimeHelper.ConvertUtcToLocalTimeStr(newCurrency.UpdatedAtUtc)
                 };
 
                 Response = new Response { Data = createResult };

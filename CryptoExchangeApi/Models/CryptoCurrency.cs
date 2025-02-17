@@ -13,5 +13,5 @@ public partial class CryptoCurrency
 
     public decimal ExchangeRate { get; set; }
 
-    public DateTime UpdatedAtUTC { get; set; }
+    public DateTime UpdatedAtUtc { get; set; }
 }

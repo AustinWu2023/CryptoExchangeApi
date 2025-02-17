@@ -24,13 +24,13 @@ namespace CryptoExchangeApi.Features.Currencies.Detail {
             try {
                 var result = await DbContext.CryptoCurrency
                 .Where(w => w.CurrencyCode == r.CurrencyCode)
-                .OrderByDescending(obd => obd.UpdatedAtUTC)
+                .OrderByDescending(obd => obd.UpdatedAtUtc)
                 .Select(s => new DetailDto() {
                     Id = s.Id,
                     CurrencyCode = s.CurrencyCode,
                     CurrencyName = s.CurrencyName,
                     ExchangeRate = s.ExchangeRate,
-                    UpdatedAtUTC = DateTimeHelper.ConvertUtcToLocalTimeStr(s.UpdatedAtUTC),
+                    UpdatedAtUTC = DateTimeHelper.ConvertUtcToLocalTimeStr(s.UpdatedAtUtc),
                 }).ToListAsync(c);
 
                 if (!result.Any()) {

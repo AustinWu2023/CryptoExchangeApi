@@ -1,7 +1,9 @@
 using CryptoExchangeApi.Models;
+using CryptoExchangeApi.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using Serilog;
 using System.Text.Json;
@@ -37,12 +39,25 @@ bld.Services.AddFastEndpoints(opt => {
 
 }); //define a swagger document
 
-// External API
-bld.Services.AddHttpClient("ExternalApiClient")
-    .AddHttpMessageHandler<LoggingHttpHandler>();
+
+var coinDeskApiUrl = bld.Configuration.GetValue<string>("CoinDeskApi:BaseUrl");
+var coinCapApiUrl = bld.Configuration.GetValue<string>("CoinCapApi:BaseUrl");
+
+// CoinDesk API HttpClient
+bld.Services.AddHttpClient("CoinDeskApiClient", client => {
+    client.BaseAddress = new Uri(coinDeskApiUrl!);
+}).AddHttpMessageHandler<LoggingHttpHandler>();
+
+//CoinCap API HttpClient
+bld.Services.AddHttpClient("CoinCapApiClient", client => {
+    client.BaseAddress = new Uri(coinCapApiUrl!);
+}).AddHttpMessageHandler<LoggingHttpHandler>();
 
 bld.Services.AddTransient<LoggingHttpHandler>();
 
+// Importer
+bld.Services.AddSingleton<ICurrencyDataImporter, CurrencyDataImporter>();
+bld.Services.AddScoped<ICurrencyDatabaseService, CurrencyDatabaseService>();
 
 var app = bld.Build();
 
@@ -60,7 +75,6 @@ app.UseDefaultExceptionHandler()
     // Global configuration for all endpoints
     cfg.Endpoints.Configurator = ep => {
         ep.AllowAnonymous(); // Allow all requests to be anonymous for development purposes
-   
     };
 
 }).UseSwaggerGen(); // Enable Swagger Files
