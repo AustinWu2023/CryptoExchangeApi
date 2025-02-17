@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace CryptoExchangeApi.Features.Coindesk {
+namespace CryptoExchangeApi.Features.Coindesk.GetApiData {
     internal sealed class Request {
 
     }

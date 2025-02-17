@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json;
 
-namespace CryptoExchangeApi.Features.Coindesk {
+namespace CryptoExchangeApi.Features.Coindesk.GetApiData {
     internal sealed class Endpoint : EndpointWithoutRequest<Response> {
 
         public required AppDbContext DbContext { get; set; }
@@ -25,9 +25,9 @@ namespace CryptoExchangeApi.Features.Coindesk {
         }
 
         public override void Configure() {
-            Get("/coindesk/");
-            Summary(s =>            {
-                s.Summary = "Get Bitcoin exchange rates from CoinDesk API or CoinCap API";                
+            Get("/Coindesk");
+            Summary(s => {
+                s.Summary = "Get Bitcoin exchange rates from CoinDesk API";
             });
         }
 
@@ -36,8 +36,8 @@ namespace CryptoExchangeApi.Features.Coindesk {
 
             try {
                 responseContent = await _coinDeskClient.GetStringAsync("", c);
-                Log.Information("Fetched data from CoinDesk API");       
-                
+                Log.Information("Fetched data from CoinDesk API");
+
             } catch (Exception ex) {
                 Log.Warning("Failed to fetch CoinDesk API: {Message}", ex.Message);
                 try {
@@ -49,7 +49,7 @@ namespace CryptoExchangeApi.Features.Coindesk {
                     return;
                 }
             }
-            
+
             // 處理json data
             var jsonDoc = JsonDocument.Parse(responseContent);
             var root = jsonDoc.RootElement;
