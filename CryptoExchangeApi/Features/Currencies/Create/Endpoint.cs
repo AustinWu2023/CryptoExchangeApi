@@ -40,7 +40,7 @@ namespace CryptoExchangeApi.Features.Currencies.Create {
                     UpdatedAtUTC = DateTimeHelper.ConvertUtcToLocalTimeStr(newCurrency.UpdatedAtUtc)
                 };
                               
-                await SendAsync(new Response() { Data = createResult });
+                await SendAsync(new Response() { Data = createResult }, 201);
                 //Response = new Response { Data = createResult };
 
             } catch (Exception ex) {

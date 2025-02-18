@@ -22,14 +22,15 @@ namespace CryptoExchangeApi.Features.Currencies.Delete {
 
             if (result == null) {
                 Log.Warning($"Delete Currency By Id, currency not found. Id: {r.Id}");
-                await SendNotFoundAsync();
+                await SendNotFoundAsync(c);
                 //Response = new Response();
+                return; 
             }
 
             try {
                 DbContext.CryptoCurrency.Remove(result);
                 await DbContext.SaveChangesAsync(c);                
-                await SendOkAsync();
+                await SendNoContentAsync(c);
                 //Response = new Response();
             } catch (Exception ex) {
                 Log.Error($"Delete Currency by Id failed. Message : {ex.Message}");
