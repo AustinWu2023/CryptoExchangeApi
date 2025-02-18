@@ -61,8 +61,6 @@ bld.Services.AddScoped<ICurrencyDatabaseService, CurrencyDatabaseService>();
 
 var app = bld.Build();
 
-
-app.UseDefaultExceptionHandler();
 // Internal API
 app.UseMiddleware<RequestResponseLoggingMiddleware>(); 
 
