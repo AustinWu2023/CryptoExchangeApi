@@ -11,7 +11,8 @@ namespace CryptoExchangeApi.Features.Currencies.Create {
 
     internal sealed class Validator : Validator<Request> {
         public Validator() {
-            RuleFor(x => x.CurrencyCode).Matches("^[A-Z]{3}$").WithMessage("Code must be exactly 3 uppercase letters (A-Z)");
+            RuleFor(x => x.CurrencyCode).Matches("^[A-Z0-9]{1,8}$")
+                .WithMessage("Code must contain 1 to 8 uppercase letters (A-Z) or digits (0-9).");
             RuleFor(x => x.CurrencyName).NotEmpty().WithMessage("CurrencyName must have at least one character.")
                 .MaximumLength(50).WithMessage("CurrencyName must not exceed 50 characters.");
         }

@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using FluentValidation;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CryptoExchangeApi.Features.Currencies.Detail {
     internal sealed class Request {
@@ -8,10 +7,9 @@ namespace CryptoExchangeApi.Features.Currencies.Detail {
     }
 
     internal sealed class Validator : Validator<Request> {
-        public Validator() {
-            RuleFor(x => x.CurrencyCode)
-            .Matches("^[A-Z]{3}$") // 驗證 Code 必須是 3 個大寫字母
-            .WithMessage("Code must be exactly 3 uppercase letters (A-Z)");
+        public Validator() {           
+            RuleFor(x => x.CurrencyCode).Matches("^[A-Z0-9]{1,8}$")
+                .WithMessage("Code must contain 1 to 8 uppercase letters (A-Z) or digits (0-9).");
         }
     }
 

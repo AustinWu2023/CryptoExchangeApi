@@ -16,7 +16,8 @@ namespace CryptoExchangeApi.Features.Currencies.Update {
             .GreaterThan(0).WithMessage("Id must be a positive integer greater than 0.");
             RuleFor(x => x.CurrencyCode)
                 .NotEmpty().WithMessage("CurrencyCode is required.")
-                .Matches("^[A-Z]{3}$").WithMessage("Code must be exactly 3 uppercase letters (A-Z)");
+                .Matches("^[A-Z0-9]{1,8}$")
+                .WithMessage("Code must contain 1 to 8 uppercase letters (A-Z) or digits (0-9).");
             RuleFor(x => x.CurrencyName)
                 .NotEmpty().WithMessage("CurrencyName is required.")
                 .MaximumLength(50).WithMessage("CurrencyName must not exceed 50 characters.");

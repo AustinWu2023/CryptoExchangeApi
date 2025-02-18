@@ -81,6 +81,8 @@ namespace CryptoExchangeApi.Features.Coindesk.GetApiData {
                 bool isSuccess = await _currencyDatabaseService.ImportCurrenciesAsync(currencies);
                 if (!isSuccess) {
                     Log.Error("Database import failed.");
+                    await SendErrorsAsync(500);
+                    return;
                 }
             }
 
