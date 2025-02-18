@@ -1,30 +1,45 @@
-# 請參閱 https://aka.ms/customizecontainer 了解如何自訂您的偵錯容器，以及 Visual Studio 如何使用此 Dockerfile 來組建您的映像，以加快偵錯速度。
-
-# 此階段用於以快速模式從 VS 執行時 (偵錯設定的預設值)
+# 使用 .NET 8 SDK 建置 API
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# 設定 ASP.NET Core 運行環境變數
+ENV ASPNETCORE_URLS=http://+:8080
 
-# 此階段是用來組建服務專案
+# 建置應用程式
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CryptoExchangeApi.csproj", "."]
-RUN dotnet restore "./CryptoExchangeApi.csproj"
+
+# 安裝 EF
+#RUN dotnet tool install --global dotnet-ef
+#ENV PATH="${PATH}:/root/.dotnet/tools"
+# 連線字串
+# ARG ConnectionString="Server=mssql,1433;Database=CryptoExchange;User Id=sa;Password=YourStrong!Passw0rd"
+
+# 只複製主專案的 csproj
+COPY ["CryptoExchangeApi.csproj", "./"]
+RUN dotnet restore "CryptoExchangeApi.csproj"
+
+# 複製所有檔案（但 `.dockerignore` 可排除 `Tests` 目錄）
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./CryptoExchangeApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# 此階段可用來發佈要複製到最終階段的服務專案
+#RUN echo "Waiting for SQL Server to start..." && \
+    #sleep 60 && \
+    #dotnet ef dbcontext scaffold "$ConnectionString" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --force
+
+# 只編譯主 API，排除 `.sln` 自動包含的測試專案
+RUN dotnet build "CryptoExchangeApi.csproj" -c Release -o /app/build
+
+
+# 發佈應用程式
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CryptoExchangeApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "CryptoExchangeApi.csproj" -c Release -o /app/publish
 
-# 此階段用於生產環境，或以一般模式從 VS 執行時 (未使用偵錯設定時的預設值)
+# 最終運行環境
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "CryptoExchangeApi.dll"]
+
+

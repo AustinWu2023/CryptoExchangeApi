@@ -1,0 +1,52 @@
+﻿version: '3.8'
+
+services:
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql_container    
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ./SqlScripts:/SqlScripts
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-Q", "SELECT 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+      
+  seq:
+    image: datalust/seq:latest
+    container_name: seq_container
+    ports:
+      - "5341:80"
+    environment:
+      ACCEPT_EULA: "Y"
+    volumes:
+      - seq_data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crypto_exchange_api
+    ports:
+      - "8080:8080"
+    depends_on:
+      # mssql:
+      #   condition: service_healthy
+      seq:
+        condition: service_started
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=mssql,1433;Database=CryptoExchange;User Id=sa;Password=YourStrong!Passw0rd;"
+      Serilog__WriteTo__0__Args__serverUrl: "http://seq:80"
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+volumes:
+  mssql_data:
+  seq_data:

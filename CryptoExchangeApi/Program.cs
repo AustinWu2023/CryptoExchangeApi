@@ -2,13 +2,17 @@ using CryptoExchangeApi.Models;
 using CryptoExchangeApi.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using Serilog;
+using System.Diagnostics;
 using System.Text.Json;
 
 var bld = WebApplication.CreateBuilder(args);
+
+bld.WebHost.UseUrls("http://0.0.0.0:8080");
 
 // Setting use Serilog
 Log.Logger = new LoggerConfiguration()
@@ -59,32 +63,89 @@ bld.Services.AddTransient<LoggingHttpHandler>();
 bld.Services.AddSingleton<ICurrencyDataImporter, CurrencyDataImporter>();
 bld.Services.AddScoped<ICurrencyDatabaseService, CurrencyDatabaseService>();
 
+
 var app = bld.Build();
 
+//ªì©l¤ÆDB
+Log.Information("DB init start !");
+using (var scope = app.Services.CreateScope()) {
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    
+    var connectionString = bld.Configuration.GetConnectionString("DefaultConnection");
+    var sqlFilePath = Path.Combine(Directory.GetCurrentDirectory(), "SqlScripts", "init.sql");
+    Log.Information($"connectionString : {connectionString},  sqlFilePath : {sqlFilePath}.");
+    if (File.Exists(sqlFilePath)) {
+        try {
+            using (var connection = new SqlConnection(connectionString)) {
+                connection.Open();
+                var command = new SqlCommand(File.ReadAllText(sqlFilePath), connection);
+                command.ExecuteNonQuery();
+                Log.Information("SQL init end");
+            }
+        } catch (Exception ex) {
+            Log.Error("DB init Failed!!" + ex.Message);
+        }       
+    }
+}
 
-app.UseDefaultExceptionHandler();
+Log.Information("DB init end !");
+
+//var providerName = "Microsoft.EntityFrameworkCore.SqlServer";
+//var outputDir = "Models";
+
+//try {
+//    Log.Information("Start EF Core Scaffold-DbContext...");
+//    var process = new Process {
+//        StartInfo = new ProcessStartInfo {
+//            FileName = "dotnet",
+//            Arguments = $"ef dbcontext scaffold \"{bld.Configuration.GetConnectionString("DefaultConnection")}\" {providerName} -o {outputDir} --force",
+//            RedirectStandardOutput = true,
+//            RedirectStandardError = true,
+//            UseShellExecute = false,
+//            CreateNoWindow = true
+//        }
+//    };
+
+//    process.Start();
+//    string result = process.StandardOutput.ReadToEnd();
+//    string error = process.StandardError.ReadToEnd();
+//    process.WaitForExit();
+
+//    if (process.ExitCode == 0) {
+//        Log.Information("EF Core Scaffold-DbContext end!");
+//        Log.Information(result);
+//    } else {
+//        Log.Error("EF Core Scaffold-DbContext Error: " + error);
+//    }
+//} catch (Exception ex) {
+//    Log.Error("EF Core Scaffold-DbContext Failed", ex);
+//}
+
+
+
+
+
 // Internal API
-app.UseMiddleware<RequestResponseLoggingMiddleware>(); 
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
 app.UseDefaultExceptionHandler()
    .UseFastEndpoints(cfg => {
-    cfg.Endpoints.RoutePrefix = "api"; // Set API route prefix (optional)
-    cfg.Serializer.Options.PropertyNameCaseInsensitive = true;
-    cfg.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+       cfg.Endpoints.RoutePrefix = "api"; // Set API route prefix (optional)
+       cfg.Serializer.Options.PropertyNameCaseInsensitive = true;
+       cfg.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
-    // Global configuration for all endpoints
-    cfg.Endpoints.Configurator = ep => {
-        ep.AllowAnonymous(); // Allow all requests to be anonymous for development purposes
-    };
+       // Global configuration for all endpoints
+       cfg.Endpoints.Configurator = ep => {
+           ep.AllowAnonymous(); // Allow all requests to be anonymous for development purposes
+       };
 
-}).UseSwaggerGen(); // Enable Swagger Files
+   });
+
+app.UseSwaggerGen();
 
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment()) {
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+
+
 
 app.Run();
 
