@@ -15,7 +15,7 @@
 ### 4.多語系設計 [未實作]
 ### 5.design pattern 實作 [未實作]
 ### 6.能夠運行在Docker [Swagger-UI 有]
-* git checkout doecker branch, please
+* git checkout Doecker branch, please
 * Swagger-UI + seq + SQL Server(DB有問題)
   
 ### 7 加解密技術應用(AES/RSA) [未實作]
@@ -23,4 +23,4 @@
 ## 其他說明
 * api.coindesk.com 的API這幾天有問題， 所以先找了coincap 的API來取得所需資料
 * 中文名稱的部分，因為API未提供，所以自行另外自建檔案處理ImportFile\translated_currencies.json
-* 
+* 資料表建立的檔案放在Doecker branch SqlScripts\init.sql
