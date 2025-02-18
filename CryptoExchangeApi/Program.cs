@@ -64,7 +64,7 @@ var app = bld.Build();
 // Internal API
 app.UseMiddleware<RequestResponseLoggingMiddleware>(); 
 
-app.UseDefaultExceptionHandler()
+app.UseDefaultExceptionHandler() //攔截所有未處理的錯誤
    .UseFastEndpoints(cfg => {
     cfg.Endpoints.RoutePrefix = "api"; // Set API route prefix (optional)
     cfg.Serializer.Options.PropertyNameCaseInsensitive = true;
@@ -76,13 +76,6 @@ app.UseDefaultExceptionHandler()
     };
 
 }).UseSwaggerGen(); // Enable Swagger Files
-
-
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment()) {
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
 
 app.Run();
 
