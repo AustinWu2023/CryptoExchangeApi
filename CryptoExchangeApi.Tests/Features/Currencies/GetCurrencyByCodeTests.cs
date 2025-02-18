@@ -11,7 +11,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             _endpoint = new Endpoint { DbContext = _dbContext };
         }
 
-        [Fact, Priority(3)]
+        [Fact, Priority(4)]
         public async Task GetCurrencyByCoode_ShouldReturnData() {
             // Arrange          
             var request = new Request {
@@ -29,7 +29,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             _dbContext.CryptoCurrency.ShouldContain(x => x.CurrencyCode == request.CurrencyCode);
         }
 
-        [Fact, Priority(4)]
+        [Fact, Priority(5)]
         public async Task GetCurrencyByCode_ShouldReturnNoData() {
             // Arrange          
             var request = new Request {

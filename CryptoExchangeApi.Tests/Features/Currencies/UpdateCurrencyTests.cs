@@ -10,7 +10,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             _endpoint = new Endpoint { DbContext = _dbContext };
         }
 
-        [Fact, Priority(7)]
+        [Fact, Priority(9)]
         public async Task UpdateCurrency_ShouldReturnSuccess() {
 
             // Arrange
@@ -35,7 +35,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
 
         }
 
-        [Fact, Priority(8)]
+        [Fact, Priority(10)]
         public async Task UpdateCurrency_ShouldReturnFail() {
 
             // Arrange
@@ -54,7 +54,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             // Assert
             rsp.ShouldNotBeNull();
             var updatedCurrency = await _dbContext.CryptoCurrency.FindAsync(request.Id);
-            updatedCurrency.ShouldBeNull();;
+            updatedCurrency.ShouldBeNull();
 
         }
 

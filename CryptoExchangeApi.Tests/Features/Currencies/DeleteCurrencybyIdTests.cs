@@ -10,7 +10,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             _endpoint = new Endpoint { DbContext = _dbContext };
         }
 
-        [Fact, Priority(5)]
+        [Fact, Priority(7)]
         public async Task DeleteCurrencybyIdTests_ShouldReturnSuccess() {
             // Arrange          
             var request = new Request {
@@ -27,7 +27,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             deletedCurrency.ShouldBeNull();
         }
 
-        [Fact, Priority(6)]
+        [Fact, Priority(8)]
         public async Task DeleteCurrencybyIdTests_ShouldReturnFail() {
             // Arrange          
             var request = new Request {

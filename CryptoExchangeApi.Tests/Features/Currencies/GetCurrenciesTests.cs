@@ -12,7 +12,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             _endpoint = new Endpoint { DbContext = _dbContext };
         }
 
-        [Fact, Priority(2)]
+        [Fact, Priority(6)]
         public async Task GetCurrencies_ShouldReturnData() {
             // Act
             await _endpoint.HandleAsync(CancellationToken.None);

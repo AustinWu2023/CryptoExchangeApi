@@ -4,7 +4,7 @@ using Shouldly;
 
 namespace CryptoExchangeApi.Tests.Features.Currencies {
     public class CreateCurrencyTests : TestBase {
-        
+
         private readonly Endpoint _endpoint;
 
         public CreateCurrencyTests() {
@@ -12,7 +12,7 @@ namespace CryptoExchangeApi.Tests.Features.Currencies {
             _endpoint = new Endpoint { DbContext = _dbContext };
         }
 
-        [Fact, Priority(1)]
+        [Fact, Priority(3)]
         public async Task CreateCurrency_ShouldReturnSuccess() {
             // Arrange 
             var request = new Request {
