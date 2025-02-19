@@ -66,51 +66,6 @@ bld.Services.AddScoped<ICurrencyDatabaseService, CurrencyDatabaseService>();
 
 var app = bld.Build();
 
-//初始化DB
-//Log.Information("DB init start !");
-//using (var scope = app.Services.CreateScope()) {
-//    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-//    int retryCount = 0;
-//    int maxRetries = 50; // 最大重試次數
-//    int retryDelay = 1000; // 每次等待1秒
-
-//    var dbConnection = dbContext.Database.GetDbConnection();
-//    string connectionString = dbConnection.ConnectionString;
-//    Log.Information($"Database ConnectionString: {connectionString}");
-
-//    Log.Information("Checking database connection...");
-
-//    while (retryCount < maxRetries) {
-//        try {
-//            if (dbContext.Database.CanConnect()) {
-//                Log.Information("Database is ready. Proceeding with migration...");
-//                break;
-//            }
-//        } catch (Exception ex) {
-//            Log.Warning($"Database connection attempt {retryCount + 1} failed. Retrying in {retryDelay / 1000} seconds...");
-//            Log.Warning(ex, "Exception while checking database connection.");
-//        }
-
-//        retryCount++;
-//        Thread.Sleep(retryDelay);
-//    }
-
-//    if (retryCount == maxRetries) {
-//        Log.Error("Database connection failed after multiple attempts. Exiting application.");
-//        return;
-//    }
-
-//    try {
-//        Log.Information("Migrating database...");
-//        dbContext.Database.Migrate();
-//        Log.Information("Database migrated successfully.");
-//    } catch (Exception ex) {
-//        Log.Error(ex, "An error occurred while migrating the database.");
-//    }
-//}
-
-//Log.Information("DB init end !");
-
 
 // Internal API
 app.UseMiddleware<RequestResponseLoggingMiddleware>();
