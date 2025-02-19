@@ -2,13 +2,12 @@ using CryptoExchangeApi.Models;
 using CryptoExchangeApi.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using Serilog;
-using System.Diagnostics;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore.SqlServer;
+
 
 var bld = WebApplication.CreateBuilder(args);
 
@@ -27,7 +26,8 @@ if (bld.Environment.IsEnvironment("Testing")) {
         options.UseInMemoryDatabase(Guid.NewGuid().ToString()));  // 代刚ㄏノ InMemory
 } else {
     bld.Services.AddDbContext<AppDbContext>(options =>
-     options.UseSqlServer(bld.Configuration.GetConnectionString("DefaultConnection")));
+     options.UseSqlServer(bld.Configuration.GetConnectionString("DefaultConnection")
+    ));
 }
 
 
@@ -67,62 +67,49 @@ bld.Services.AddScoped<ICurrencyDatabaseService, CurrencyDatabaseService>();
 var app = bld.Build();
 
 //﹍てDB
-Log.Information("DB init start !");
-using (var scope = app.Services.CreateScope()) {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    
-    var connectionString = bld.Configuration.GetConnectionString("DefaultConnection");
-    var sqlFilePath = Path.Combine(Directory.GetCurrentDirectory(), "SqlScripts", "init.sql");
-    Log.Information($"connectionString : {connectionString},  sqlFilePath : {sqlFilePath}.");
-    if (File.Exists(sqlFilePath)) {
-        try {
-            using (var connection = new SqlConnection(connectionString)) {
-                connection.Open();
-                var command = new SqlCommand(File.ReadAllText(sqlFilePath), connection);
-                command.ExecuteNonQuery();
-                Log.Information("SQL init end");
-            }
-        } catch (Exception ex) {
-            Log.Error("DB init Failed!!" + ex.Message);
-        }       
-    }
-}
+//Log.Information("DB init start !");
+//using (var scope = app.Services.CreateScope()) {
+//    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    int retryCount = 0;
+//    int maxRetries = 50; // 程刚Ω计
+//    int retryDelay = 1000; // –Ω单1
 
-Log.Information("DB init end !");
+//    var dbConnection = dbContext.Database.GetDbConnection();
+//    string connectionString = dbConnection.ConnectionString;
+//    Log.Information($"Database ConnectionString: {connectionString}");
 
-//var providerName = "Microsoft.EntityFrameworkCore.SqlServer";
-//var outputDir = "Models";
+//    Log.Information("Checking database connection...");
 
-//try {
-//    Log.Information("Start EF Core Scaffold-DbContext...");
-//    var process = new Process {
-//        StartInfo = new ProcessStartInfo {
-//            FileName = "dotnet",
-//            Arguments = $"ef dbcontext scaffold \"{bld.Configuration.GetConnectionString("DefaultConnection")}\" {providerName} -o {outputDir} --force",
-//            RedirectStandardOutput = true,
-//            RedirectStandardError = true,
-//            UseShellExecute = false,
-//            CreateNoWindow = true
+//    while (retryCount < maxRetries) {
+//        try {
+//            if (dbContext.Database.CanConnect()) {
+//                Log.Information("Database is ready. Proceeding with migration...");
+//                break;
+//            }
+//        } catch (Exception ex) {
+//            Log.Warning($"Database connection attempt {retryCount + 1} failed. Retrying in {retryDelay / 1000} seconds...");
+//            Log.Warning(ex, "Exception while checking database connection.");
 //        }
-//    };
 
-//    process.Start();
-//    string result = process.StandardOutput.ReadToEnd();
-//    string error = process.StandardError.ReadToEnd();
-//    process.WaitForExit();
-
-//    if (process.ExitCode == 0) {
-//        Log.Information("EF Core Scaffold-DbContext end!");
-//        Log.Information(result);
-//    } else {
-//        Log.Error("EF Core Scaffold-DbContext Error: " + error);
+//        retryCount++;
+//        Thread.Sleep(retryDelay);
 //    }
-//} catch (Exception ex) {
-//    Log.Error("EF Core Scaffold-DbContext Failed", ex);
+
+//    if (retryCount == maxRetries) {
+//        Log.Error("Database connection failed after multiple attempts. Exiting application.");
+//        return;
+//    }
+
+//    try {
+//        Log.Information("Migrating database...");
+//        dbContext.Database.Migrate();
+//        Log.Information("Database migrated successfully.");
+//    } catch (Exception ex) {
+//        Log.Error(ex, "An error occurred while migrating the database.");
+//    }
 //}
 
-
-
+//Log.Information("DB init end !");
 
 
 // Internal API
@@ -143,7 +130,13 @@ app.UseDefaultExceptionHandler()
 
 app.UseSwaggerGen();
 
-
+app.Use(async (context, next) => {
+    if (context.Request.Path == "/") {
+        context.Response.Redirect("/swagger/index.html", true);
+        return;
+    }
+    await next();
+});
 
 
 

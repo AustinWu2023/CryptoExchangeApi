@@ -1,24 +1,34 @@
 ﻿version: '3.8'
 
 services:
-
   mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql_container    
+    build:
+      context: ./Infrastructure
+      dockerfile: Dockerfile   
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
+      SA_PASSWORD: "1qaz@WSX3edc"
       ACCEPT_EULA: "Y"
+      MSSQL_ENABLE_TLS: "0"
+    restart: always
+    mem_limit: 2g
     volumes:
       - mssql_data:/var/opt/mssql
-      - ./SqlScripts:/SqlScripts
+      - ./Infrastructure/SqlScripts:/sql-scripts
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-Q", "SELECT 1"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 5s
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "1qaz@WSX3edc", "-Q", "SELECT 1"]
+      interval: 30s
+      retries: 3
+      start_period: 60s
+      timeout: 10s
+    command: >
+      bash -c "
+      /opt/mssql/bin/sqlservr & 
+      sleep 30 && 
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '1qaz@WSX3edc' -d master -i /sql-scripts/init.sql &&
+      wait" 
       
   seq:
     image: datalust/seq:latest
@@ -29,7 +39,6 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - seq_data:/data
-
   api:
     build:
       context: .
@@ -38,14 +47,15 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      # mssql:
-      #   condition: service_healthy
+      mssql:
+        condition: service_healthy
       seq:
         condition: service_started
     environment:
-      ConnectionStrings__DefaultConnection: "Server=mssql,1433;Database=CryptoExchange;User Id=sa;Password=YourStrong!Passw0rd;"
+      ConnectionStrings__DefaultConnection: "Server=mssql,1433;Database=CryptoExchange;User Id=sa;Password=1qaz@WSX3edc;"
       Serilog__WriteTo__0__Args__serverUrl: "http://seq:80"
       ASPNETCORE_ENVIRONMENT: "Development"
+      
 
 volumes:
   mssql_data:
