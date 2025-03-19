@@ -23,7 +23,7 @@
 ## 其他說明
 * api.coindesk.com 的API這幾天有問題， 所以先找了coincap 的API來取得所需資料
 * 中文名稱的部分，因為API未提供，所以自行另外自建檔案處理ImportFile\translated_currencies.json
-* 資料表建立的檔案放在Doecker branch SqlScripts\init.sql
+* 資料表建立的檔案放在Docker branch \Infrastructure\SqlScripts\init.sql
 * 完整程式碼，請切換到Develop分支
 * Docker相關部分，請切換到Docker分支
 * 測試的部分，請切換到Unittest分支
